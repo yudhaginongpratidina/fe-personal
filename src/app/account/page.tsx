@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import api from "@/utils/api";
+import { deleteCookie } from "@/utils/cookies";
 
 import ResponseMessage from "@/components/ui/ResponseMessage";
 import Button from "@/components/ui/Button";
@@ -39,6 +40,8 @@ export default function Page() {
             const data = await response.data;
             await handleInfo({ isLoading: false, isError: false, message: data.message });
             await handleClearInfo();
+            await deleteCookie("authenticated");
+            await deleteCookie("refresh_token");
             setTimeout(() => { window.location.href = "/login" }, 1000);
         } catch (error: any) {
             await handleInfo({ isLoading: false, isError: true, message: error.response.data.message });

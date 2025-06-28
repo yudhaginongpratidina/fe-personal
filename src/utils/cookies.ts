@@ -6,4 +6,8 @@ const getCookie = async (name: string) => {
     return (await cookie).get(name)?.value;
 }
 
-export { getCookie }
+const deleteCookie = async (name: string) => {
+    (await cookies()).delete(name)
+};
+
+export { getCookie, deleteCookie };
