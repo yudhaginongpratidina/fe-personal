@@ -10,6 +10,7 @@ export async function middleware(req: NextRequest) {
     }
     
     const protectedPaths = [
+        '/dashboard',
         '/account',
     ];
     
@@ -32,6 +33,7 @@ export const config = {
         '/',
         '/login',
         '/register',
-        '/account',
+        '/account/:path*',
+        '/dashboard/:path*',
     ],
 };
