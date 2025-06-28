@@ -68,7 +68,7 @@ export default function Page() {
     }
 
     return (
-        <main className="w-full min-h-screen flex flex-col justify-center items-center gap-4">
+        <main className="w-full min-h-screen flex flex-col justify-center items-center gap-4 px-4">
             <form onSubmit={handleLogin} className="w-full max-w-sm flex flex-col gap-4">
                 {(isError && message) && (
                     <div className="w-full h-12 px-2.5 flex items-center rounded-sm bg-red-500 text-white">
@@ -81,6 +81,7 @@ export default function Page() {
                     </div>
                 )}
                 <input
+                    autoFocus
                     type="email"
                     placeholder="Email"
                     className="w-full h-12 px-2.5 border rounded-sm border-gray-400 focus:border-gray-800 focus:outline-none duration-150"

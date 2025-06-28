@@ -7,12 +7,12 @@ COPY package*.json ./
 
 RUN npm install -g pnpm
 RUN pnpm install
+RUN pnpm run build
 
 # Copy seluruh source code, termasuk folder pages/app
 COPY . .
 
 # Build setelah semua file lengkap ada
-RUN pnpm run build
 
 EXPOSE 5010
 
