@@ -1,6 +1,6 @@
 "use client";
 import useInfo from "@/hooks/useInfo";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "@/utils/api";
 
 import Navbar from "@/components/ui/Navbar";
@@ -19,6 +19,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const [menu_sidebar_open, set_menu_sidebar_open] = useState<boolean>(false);
     const [menu_account_open, set_menu_account_open] = useState<boolean>(false);
     const [modal_confirm_logout_open, set_modal_confirm_logout_open] = useState<boolean>(false);
+
+    const sidebarRef = useRef<HTMLDivElement>(null);
+    const accountMenuRef = useRef<HTMLDivElement>(null);
 
     const handleMenuSidebar = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -50,6 +53,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         set_modal_confirm_logout_open(!modal_confirm_logout_open);
     }
 
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as Node;
+            if (
+                menu_sidebar_open &&
+                sidebarRef.current &&
+                !sidebarRef.current.contains(target)
+            ) {
+                set_menu_sidebar_open(false);
+            }
+
+            if (
+                menu_account_open &&
+                accountMenuRef.current &&
+                !accountMenuRef.current.contains(target)
+            ) {
+                set_menu_account_open(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [menu_sidebar_open, menu_account_open]);
+
     return (
         <>
             <Navbar>
@@ -65,37 +94,41 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </Navbar.Items>
             </Navbar>
 
-            <Navbar.AvatarNavigation
-                is_active={menu_account_open}
-                name="John Doe"
-                profile_link="#"
-                item_link={[
-                    { name: "profile", link: "#" },
-                    { name: "settings", link: "#" },
-                ]}
-                handleLogout={handleModalConfirmLogout}
-            />
+            <div ref={accountMenuRef}>
+                <Navbar.AvatarNavigation
+                    is_active={menu_account_open}
+                    name="John Doe"
+                    profile_link="#"
+                    item_link={[
+                        { name: "account", link: "/account" },
+                        { name: "settings", link: "#" },
+                    ]}
+                    handleLogout={handleModalConfirmLogout}
+                />
+            </div>
 
-            <Sidebar is_active={menu_sidebar_open} handle_close={handleMenuSidebar}>
-                <Sidebar.ItemLink name="home" href="/" icon={<IoHome className="w-4 h-4" />} />
-                <Sidebar.ItemLink name="inbox" href="/" icon={<MdAllInbox className="w-4 h-4" />} />
-                <Sidebar.ItemDropdown
-                    name="portfolio"
-                    icon={<SiOpenproject className="w-4 h-4" />}
-                    items={[
-                        { name: "portfolio", href: "/" },
-                        { name: "category", href: "/" },
-                    ]}
-                />
-                <Sidebar.ItemDropdown
-                    name="users"
-                    icon={<FaUsers className="w-4 h-4" />}
-                    items={[
-                        { name: "users", href: "/" },
-                        { name: "role and permission", href: "/" },
-                    ]}
-                />
-            </Sidebar>
+            <div ref={sidebarRef}>
+                <Sidebar is_active={menu_sidebar_open} handle_close={handleMenuSidebar}>
+                    <Sidebar.ItemLink name="home" href="/" icon={<IoHome className="w-4 h-4" />} />
+                    <Sidebar.ItemLink name="inbox" href="/" icon={<MdAllInbox className="w-4 h-4" />} />
+                    <Sidebar.ItemDropdown
+                        name="portfolio"
+                        icon={<SiOpenproject className="w-4 h-4" />}
+                        items={[
+                            { name: "portfolio", href: "/" },
+                            { name: "category", href: "/" },
+                        ]}
+                    />
+                    <Sidebar.ItemDropdown
+                        name="users"
+                        icon={<FaUsers className="w-4 h-4" />}
+                        items={[
+                            { name: "users", href: "/" },
+                            { name: "role and permission", href: "/" },
+                        ]}
+                    />
+                </Sidebar>
+            </div>
 
             <Modal width="sm" is_active={modal_confirm_logout_open} handle_close={handleModalConfirmLogout} modal_title="logout">
                 <div className="w-full p-4 flex flex-col justify-center items-center gap-2">

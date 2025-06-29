@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 
-import { IoEye, IoInformation } from "react-icons/io5";
+import { IoEye, IoEyeOff, IoInformation } from "react-icons/io5";
 
 
 interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
@@ -25,6 +25,7 @@ interface Input extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
     isLoading: boolean;
     isError: boolean;
+    disabled?: boolean;
 }
 
 
@@ -47,7 +48,7 @@ export default function Form({ width, children, ...props }: FormProps) {
     }
 
     return (
-        <form className={`w-full flex flex-col gap-4 ${maxWidthClass}`} {...props}>
+        <form className={`w-full h-fit flex flex-col gap-4 ${maxWidthClass}`} {...props}>
             {children}
         </form>
     )
@@ -93,33 +94,35 @@ const Label = ({ id, name, required, isError }: Label) => {
 
 
 const InputClass = "w-full h-12 px-2.5 border rounded-sm border-gray-300 focus:border-gray-400 focus:outline-none duration-150"
+const InputDisabledClass = "bg-gray-100 hover:cursor-not-allowed"
 
-
-const Text = ({ id, isLoading, isError, ...props }: Input) => {
+const Text = ({ id, isLoading, isError, disabled, ...props }: Input) => {
     return (
         <input
             type="text"
             id={id}
             name={id}
-            className={`${InputClass} ${isLoading && "hover:cursor-not-allowed"} ${isError && "border-red-500"}`}{...props}
+            disabled={disabled}
+            className={`${InputClass} ${isLoading && "hover:cursor-not-allowed"} ${disabled && InputDisabledClass} ${isError && "border-red-500"}`}{...props}
         />
     )
 }
 
 
-const Email = ({ id, isLoading, isError, ...props }: Input) => {
+const Email = ({ id, isLoading, isError, disabled, ...props }: Input) => {
     return (
         <input
             type="email"
             id={id}
             name={id}
-            className={`${InputClass} ${isLoading && "hover:cursor-not-allowed"} ${isError && "border-red-500"}`}{...props}
+            disabled={disabled}
+            className={`${InputClass} ${isLoading && "hover:cursor-not-allowed"} ${disabled && InputDisabledClass} ${isError && "border-red-500"}`}{...props}
         />
     )
 }
 
 
-const Password = ({ id, isLoading, isError, ...props }: Input) => {
+const Password = ({ id, isLoading, isError, disabled, ...props }: Input) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handleShowPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -133,10 +136,11 @@ const Password = ({ id, isLoading, isError, ...props }: Input) => {
                 type={showPassword ? "text" : "password"}
                 id={id}
                 name={id}
-                className={`${InputClass} ${isLoading && "hover:cursor-not-allowed"} ${isError && "border-red-500"}`}{...props}
+                disabled={disabled}
+                className={`${InputClass} ${isLoading && "hover:cursor-not-allowed"} ${disabled && InputDisabledClass} ${isError && "border-red-500"}`}{...props}
             />
             <button className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer" onClick={handleShowPassword}>
-                <IoEye className="w-5 h-5" />
+                {showPassword ? <IoEyeOff className="w-5 h-5" /> : <IoEye className="w-5 h-5" />}
             </button>
         </div>
     )
