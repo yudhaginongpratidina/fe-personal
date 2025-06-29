@@ -2,17 +2,23 @@
 import useInfo from "@/hooks/useInfo";
 import { useState } from "react";
 import api from "@/utils/api";
-import Link from "next/link";
 
-import { MdSupportAgent } from "react-icons/md";
-import { IoMenuSharp, IoMoon, IoLogOut } from "react-icons/io5";
-import { IoMdClose, IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import Navbar from "@/components/ui/Navbar";
+import Sidebar from "@/components/ui/Sidebar";
+import Modal from "@/components/ui/Modal";
+import Form from "@/components/ui/Form";
+
+import { IoMoon, IoLogOutSharp, IoHome } from "react-icons/io5";
+import { SiOpenproject } from "react-icons/si";
+import { MdAllInbox } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 
     const { info, handleInfo, handleClearInfo } = useInfo();
     const [menu_sidebar_open, set_menu_sidebar_open] = useState<boolean>(false);
     const [menu_account_open, set_menu_account_open] = useState<boolean>(false);
+    const [modal_confirm_logout_open, set_modal_confirm_logout_open] = useState<boolean>(false);
 
     const handleMenuSidebar = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -39,59 +45,73 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }
     }
 
+    const handleModalConfirmLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        set_modal_confirm_logout_open(!modal_confirm_logout_open);
+    }
+
     return (
         <>
-            <div className="fixed top-0 z-10 w-full h-12 px-4 border-b border-gray-200 flex justify-center items-center bg-white">
-                <nav className="w-full max-w-screen-xl flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                        <button onClick={handleMenuSidebar} className="hover:cursor-pointer">
-                            {menu_sidebar_open ? <IoMdClose className="w-8 h-8" /> : <IoMenuSharp className="w-8 h-8" />}
-                        </button>
-                        <h1 className="text-md uppercase font-medium">hi there</h1>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <button className="w-8 h-8 rounded-sm flex justify-center items-center hover:cursor-pointer bg-black text-white">
-                            <IoMoon className="w-4 h-4" />
-                        </button>
-                        <button onClick={handleMenuAccount} className="w-8 h-8 relative rounded-sm hover:cursor-pointer flex items-center gap-0.5 bg-gray-600">
-                            {menu_account_open ? <IoMdArrowDropup className="w-4 h-4 absolute -right-4" /> : <IoMdArrowDropdown className="w-4 h-4 absolute -right-4" />}
-                        </button>
-                    </div>
-                </nav>
-            </div>
+            <Navbar>
+                <Navbar.Items direction="row">
+                    <Navbar.Hamburger is_active={menu_sidebar_open} onClick={handleMenuSidebar} />
+                    <Navbar.SayHello>hi there</Navbar.SayHello>
+                </Navbar.Items>
+                <Navbar.Items direction="row">
+                    <Navbar.ActionButton>
+                        <IoMoon className="w-4 h-4" />
+                    </Navbar.ActionButton>
+                    <Navbar.AvatarButton is_active={menu_account_open} onClick={handleMenuAccount} />
+                </Navbar.Items>
+            </Navbar>
 
-            {menu_account_open && (
-                <div className="fixed top-16 z-10 w-full px-4 flex justify-center items-center">
-                    <div className="w-full max-w-screen-xl flex justify-end">
-                        <div className="w-full md:max-w-xs p-2 flex flex-col gap-1 rounded-sm border border-gray-200 bg-white">
-                            <div className="w-full p-2 flex items-start gap-2">
-                                <div className="min-w-12 min-h-12 max-w-12 max-h-12 rounded-sm bg-gray-600" />
-                                <div className="w-full">
-                                    <h1 className="text-sm font-medium uppercase">John Doe</h1>
-                                    <Link href="/" className="text-sm font-bold text-blue-500">view profile</Link>
-                                </div>
-                            </div>
-                            <hr className="w-full border-gray-200" />
-                            <Link href={"/account"} className="w-full h-9 rounded-sm flex items-center px-2 text-sm font-medium hover:cursor-pointer hover:bg-gray-100 duration-150">
-                                My Account
-                            </Link>
-                            <div className="w-full h-9 rounded-sm flex items-center px-2 text-sm font-medium hover:cursor-pointer hover:bg-gray-100 duration-150">
-                                Settings
-                            </div>
-                            <hr className="w-full border-gray-200" />
-                            <div className="w-full h-9 rounded-sm flex items-center gap-2.5 px-1.5 text-sm font-medium hover:cursor-pointer hover:bg-gray-100 duration-150">
-                                <MdSupportAgent className="w-5 h-5" />
-                                <span>Support Center</span>
-                            </div>
-                            <button onClick={handleLogout} className="w-full h-9 rounded-sm flex items-center gap-2.5 px-1.5 text-sm font-medium hover:cursor-pointer hover:bg-gray-100 duration-150">
-                                <IoLogOut className="w-6 h-6" />
-                                <span>Logout</span>
-                            </button>
-                        </div>
-                    </div>
+            <Navbar.AvatarNavigation
+                is_active={menu_account_open}
+                name="John Doe"
+                profile_link="#"
+                item_link={[
+                    { name: "profile", link: "#" },
+                    { name: "settings", link: "#" },
+                ]}
+                handleLogout={handleModalConfirmLogout}
+            />
+
+            <Sidebar is_active={menu_sidebar_open} handle_close={handleMenuSidebar}>
+                <Sidebar.ItemLink name="home" href="/" icon={<IoHome className="w-4 h-4" />} />
+                <Sidebar.ItemLink name="inbox" href="/" icon={<MdAllInbox className="w-4 h-4" />} />
+                <Sidebar.ItemDropdown
+                    name="portfolio"
+                    icon={<SiOpenproject className="w-4 h-4" />}
+                    items={[
+                        { name: "portfolio", href: "/" },
+                        { name: "category", href: "/" },
+                    ]}
+                />
+                <Sidebar.ItemDropdown
+                    name="users"
+                    icon={<FaUsers className="w-4 h-4" />}
+                    items={[
+                        { name: "users", href: "/" },
+                        { name: "role and permission", href: "/" },
+                    ]}
+                />
+            </Sidebar>
+
+            <Modal width="sm" is_active={modal_confirm_logout_open} handle_close={handleModalConfirmLogout} modal_title="logout">
+                <div className="w-full p-4 flex flex-col justify-center items-center gap-2">
+                    {info.message && <Form.Response isError={info.isError} message={info.message} />}
+                    <IoLogOutSharp className="w-32 h-32 text-black" />
+                    <button onClick={handleLogout} className="w-full h-10 rounded-sm hover:cursor-pointer bg-rose-500 text-white">
+                        Yes, I want to logout
+                    </button>
                 </div>
-            )}
-            {children}
+            </Modal>
+
+            <main className="w-full flex justify-center pt-16">
+                <div className="w-full max-w-screen-xl px-4 xl:px-0">
+                    {children}
+                </div>
+            </main>
         </>
     );
 }
