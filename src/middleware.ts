@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
 
     if (req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/register') {
         const authenticated = await getCookie('authenticated');
-        if (authenticated) { return NextResponse.redirect(new URL('/account', req.url)); }
+        if (authenticated) { return NextResponse.redirect(new URL('/', req.url)); }
     }
     
     const protectedPaths = [
