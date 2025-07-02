@@ -1,4 +1,6 @@
 "use client";
+import secureLocalStorage from "react-secure-storage";
+
 import api from "@/utils/api";
 import useInfo from "@/hooks/useInfo";
 import useForm from "@/hooks/useForm";
@@ -15,7 +17,7 @@ export default function Page() {
         try {
             const { data } = await api.post("/auth/login", { email: credentials.email, password: credentials.password, });
             handleInfo({ isLoading: false, isError: false, message: data.message });
-            console.log(data);
+            secureLocalStorage.setItem("token", data.token);
             resetForm();
             setTimeout(() => window.location.assign("/dashboard"), 2000);
         } catch (error: any) {

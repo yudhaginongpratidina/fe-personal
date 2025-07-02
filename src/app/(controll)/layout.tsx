@@ -1,4 +1,6 @@
 "use client";
+import secureLocalStorage from "react-secure-storage";
+
 import useInfo from "@/hooks/useInfo";
 import { useState, useEffect, useRef } from "react";
 import api from "@/utils/api";
@@ -41,6 +43,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             const data = await response.data;
             handleInfo({ isLoading: false, isError: false, message: data.message });
             handleClearInfo();
+            secureLocalStorage.removeItem("token");
             setTimeout(() => { window.location.href = "/login" }, 1000);
         } catch (error: any) {
             handleInfo({ isLoading: false, isError: true, message: error.response.data.message });
