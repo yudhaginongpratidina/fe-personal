@@ -15,6 +15,7 @@ export default function Page() {
         try {
             const { data } = await api.post("/auth/login", { email: credentials.email, password: credentials.password, });
             handleInfo({ isLoading: false, isError: false, message: data.message });
+            console.log(data);
             resetForm();
             setTimeout(() => window.location.assign("/dashboard"), 2000);
         } catch (error: any) {
