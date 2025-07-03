@@ -1,32 +1,10 @@
 # PERSONAL WEBSITE
 
-## SETUP DEV
-
 ```bash
-https://github.com/yudhaginongpratidina/personal-website.git
-cd personal-website
-cp .env.example .env
-pnpm install
+git clone https://github.com/yudhaginongpratidina/personal-website.git
 ```
 
-```env
-NEXT_PUBLIC_ENVIRONMENT=
-NEXT_PUBLIC_BACKEND=
-```
+## DOCUMENTATION
 
-## SETUP PROD
-
-```bash
-https://github.com/yudhaginongpratidina/personal-website.git
-cd personal-website
-cp .env.example .env
-```
-
-```bash
-cp .env.example .env
-```
-
-```bash
-docker build -t nextjs/personal-website:latest .
-docker run -d --name personal-website -p <port>:5010 nextjs/personal-website:latest
-```
+- [development setup guide](docs/development-setup-guide.md)
+- [production setup guide](docs/production-setup-guide.md)
