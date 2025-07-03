@@ -113,7 +113,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div ref={sidebarRef}>
                 <Sidebar is_active={menu_sidebar_open} handle_close={handleMenuSidebar}>
                     <Sidebar.ItemLink name="home" href="/" icon={<IoHome className="w-4 h-4" />} />
-                    <Sidebar.ItemLink name="inbox" href="/" icon={<MdAllInbox className="w-4 h-4" />} />
+                    <Sidebar.ItemLink name="inbox" href="/inbox" icon={<MdAllInbox className="w-4 h-4" />} />
                     <Sidebar.ItemDropdown
                         name="portfolio"
                         icon={<SiOpenproject className="w-4 h-4" />}

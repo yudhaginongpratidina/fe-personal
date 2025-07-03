@@ -14,6 +14,7 @@ interface NavigationItemProps extends React.HTMLAttributes<HTMLButtonElement> {
     name: string
     tab_active: string
     icon?: React.ReactNode
+    count?: number
 }
 
 
@@ -44,16 +45,19 @@ const Navigation = ({ title, children }: NavigationProps) => {
 }
 
 
-const NavigationItem = ({ id, tab_active, name, icon, ...props }: NavigationItemProps) => {
+const NavigationItem = ({ id, tab_active, name, icon, count, ...props }: NavigationItemProps) => {
 
-    const tab_class = "w-full p-2 flex justify-start items-center gap-2 capitalize rounded-sm"
+    const tab_class = "w-full p-2 flex justify-between items-center gap-2 capitalize rounded-sm"
     const tab_active_class = "bg-black text-white hover:cursor-pointer"
     const tab_inactive_class = "hover:bg-gray-200 hover:cursor-pointer"
 
     return (
         <button className={`${tab_class} ${id == tab_active ? tab_active_class : tab_inactive_class}`} {...props}>
-            {icon}
-            <span>{name}</span>
+            <div className="flex items-center gap-2">
+                {icon}
+                <span>{name}</span>
+            </div>
+            {count && <div className="w-6 h-6 rounded-full flex justify-center items-center bg-black text-white">{count}</div>}
         </button>
     )
 }
