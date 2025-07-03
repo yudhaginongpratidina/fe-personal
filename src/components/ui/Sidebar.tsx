@@ -32,7 +32,7 @@ export default function Sidebar({ is_active, handle_close, children }: SidebarPr
                 <aside className="fixed top-0 z-10 w-full md:max-w-[280px] border-r border-gray-200 min-h-screen bg-white">
                     <div className="w-full h-12 px-4 flex justify-between items-center border-b border-gray-200">
                         <div className="w-8 h-8 rounded-sm bg-gray-400" />
-                        <button onClick={handle_close} className="2xl:hidden hover:cursor-pointer">
+                        <button onClick={handle_close} className="3xl:hidden hover:cursor-pointer">
                             <IoMdClose className="w-6 h-6" />
                         </button>
                     </div>

@@ -103,16 +103,7 @@ const AvatarNavigation = ({ is_active, name, profile_link, item_link, handleLogo
             {is_active && (
                 <div className="fixed top-16 z-10 w-full px-4 flex justify-center items-center">
                     <div className="w-full max-w-screen-xl flex justify-end">
-                        <div className="w-full md:max-w-xs p-2 flex flex-col gap-1 rounded-sm border border-gray-200 bg-white">
-                            <div className="w-full flex flex-col gap-1.5 border rounded-sm border-gray-200">
-                                <div className="w-full p-2 flex items-start gap-2">
-                                    <div className="min-w-12 min-h-12 max-w-12 max-h-12 rounded-sm bg-gray-600" />
-                                    <div className="w-full">
-                                        <h1 className="text-sm font-medium uppercase">{name}</h1>
-                                        <Link href={profile_link} className="text-sm font-bold text-blue-500">view profile</Link>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="w-full md:max-w-[200px] p-2 flex flex-col gap-1 rounded-sm border border-gray-200 bg-white">
                             {item_link.map((item, index) => <Link key={index} href={item.link} className={ClassLink}>{item.name}</Link>)}
                             <hr className="w-full border-gray-200" />
                             <button className={ClassLink} onClick={handleLogout}>logout</button>
