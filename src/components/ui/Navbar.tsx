@@ -11,6 +11,7 @@ interface NavbarProps {
 interface ItemsProps {
     children: React.ReactNode
     direction: "column" | "row"
+    className?: string
 }
 
 
@@ -21,6 +22,7 @@ interface HamburgerProps extends React.HTMLAttributes<HTMLButtonElement> {
 
 interface ActionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode
+    className?: string
 }
 
 
@@ -53,11 +55,20 @@ export default function Navbar({ children }: NavbarProps) {
 }
 
 
-const Items = ({ direction, children }: ItemsProps) => {
+const Items = ({ direction, children, className }: ItemsProps) => {
     return (
-        <div className={`flex gap-2 ${direction === "column" && "flex-col"} ${direction === "row" && "flex-row items-center"}`}>
+        <div className={`flex gap-2 ${direction === "column" && "flex-col"} ${direction === "row" && "flex-row items-center"} ${className}`}>
             {children}
         </div>
+    )
+}
+
+
+const ItemLink = ({name, href}: {name: string, href: string}) => {
+    return (
+        <Link href={href}>
+            <h1 className="text-lg hover:text-white md:hover:text-black md:text-sm font-medium md:hover:underline md:hover:underline-offset-8">{name}</h1>
+        </Link>
     )
 }
 
@@ -65,11 +76,10 @@ const Items = ({ direction, children }: ItemsProps) => {
 const Hamburger = ({ is_active, ...props }: HamburgerProps) => {
     return (
         <button className="hover:cursor-pointer" {...props}>
-            {is_active ? <IoMdClose className="w-8 h-8" /> : <IoMenuSharp className="w-8 h-8" />}
+            {is_active ? <IoMdClose className="w-6 h-6" /> : <IoMenuSharp className="w-6 h-6" />}
         </button>
     )
 }
-
 
 const SayHello = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -78,9 +88,9 @@ const SayHello = ({ children }: { children: React.ReactNode }) => {
 }
 
 
-const ActionButton = ({ children, ...props }: ActionButtonProps) => {
+const ActionButton = ({ className, children, ...props }: ActionButtonProps) => {
     return (
-        <button className="w-8 h-8 rounded-sm flex justify-center items-center hover:cursor-pointer bg-black text-white" {...props}>
+        <button className={`w-8 h-8 rounded-full flex justify-center items-center hover:cursor-pointer bg-black text-white ${className}`} {...props}>
             {children}
         </button>
     )
@@ -88,14 +98,13 @@ const ActionButton = ({ children, ...props }: ActionButtonProps) => {
 
 const AvatarButton = ({ is_active, ...props }: AvatarButtonProps) => {
     return (
-        <button className="w-8 h-8 relative rounded-sm hover:cursor-pointer flex items-center gap-0.5 bg-gray-600" {...props}>
+        <button className="w-8 h-8 relative rounded-full hover:cursor-pointer flex items-center gap-0.5 bg-gray-600" {...props}>
             {is_active ? <IoMdArrowDropup className="w-4 h-4 absolute -right-4" /> : <IoMdArrowDropdown className="w-4 h-4 absolute -right-4" />}
         </button>
     )
 }
 
 const AvatarNavigation = ({ is_active, name, profile_link, item_link, handleLogout }: AvatarNavigationProps) => {
-
     const ClassLink = "w-full h-9 rounded-sm flex items-center px-2 text-sm capitalize font-medium hover:cursor-pointer hover:bg-gray-100 duration-150"
 
     return (
@@ -117,6 +126,7 @@ const AvatarNavigation = ({ is_active, name, profile_link, item_link, handleLogo
 
 
 Navbar.Items = Items
+Navbar.ItemLink = ItemLink
 Navbar.Hamburger = Hamburger
 Navbar.SayHello = SayHello
 Navbar.ActionButton = ActionButton

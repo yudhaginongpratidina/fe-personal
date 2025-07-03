@@ -21,7 +21,7 @@ interface Label extends React.HTMLAttributes<HTMLLabelElement> {
 }
 
 
-interface Input extends React.InputHTMLAttributes<HTMLInputElement> {
+interface Input extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
     id: string;
     isLoading: boolean;
     isError: boolean;
@@ -57,7 +57,7 @@ export default function Form({ width, children, ...props }: FormProps) {
 
 const Response = ({ isError, message }: { isError: boolean, message: string }) => {
     return (
-        <div className={`w-full h-12 px-2.5 flex items-center gap-2 rounded-sm ${isError ? "bg-red-500" : "bg-green-500"} text-white`}>
+        <div className={`w-full h-10 px-2.5 flex items-center gap-2 rounded-sm ${isError ? "bg-red-500" : "bg-green-500"} text-white`}>
             <IoInformation className="w-5 h-5" />
             <span>{message}</span>
         </div>
@@ -86,14 +86,14 @@ const Item = ({ children }: { children: React.ReactNode }) => {
 const Label = ({ id, name, required, isError }: Label) => {
     return (
         <label htmlFor={id} className="w-full flex items-center gap-1">
-            <span className={`text-sm capitalize ${isError && "text-red-500"}`}>{name}</span>
+            <span className={`text-xs capitalize ${isError && "text-red-500"}`}>{name}</span>
             {required && <span className="text-red-500">*</span>}
         </label>
     )
 }
 
 
-const InputClass = "w-full h-12 px-2.5 border rounded-sm border-gray-300 focus:border-gray-400 focus:outline-none duration-150"
+const InputClass = "w-full h-10 px-2.5 border rounded-sm border-gray-300 focus:border-gray-400 focus:outline-none duration-150"
 const InputDisabledClass = "bg-gray-100 hover:cursor-not-allowed"
 
 const Text = ({ id, isLoading, isError, disabled, ...props }: Input) => {
@@ -147,7 +147,20 @@ const Password = ({ id, isLoading, isError, disabled, ...props }: Input) => {
 }
 
 
-const ButtonClass = "w-full h-12 px-2.5 flex items-center justify-center gap-2 rounded-sm duration-150"
+const Textarea = ({ id, isLoading, isError, disabled, ...props }: Input) => {
+    const TextareaClass = "w-full h-30 p-2.5 border rounded-sm border-gray-300 focus:border-gray-400 focus:outline-none duration-150"
+    return (
+        <textarea
+            name={id}
+            id={id}
+            disabled={disabled}
+            className={`${TextareaClass} ${isLoading && "hover:cursor-not-allowed"} ${disabled && InputDisabledClass} ${isError && "border-red-500"}`}{...props}
+        ></textarea>
+    )
+}
+
+
+const ButtonClass = "w-full h-10 px-2.5 flex items-center justify-center gap-2 rounded-sm duration-150"
 
 const Submit = ({ id, name, disabled, isLoading }: Button) => {
     return (
@@ -176,5 +189,6 @@ Form.Label = Label
 Form.Text = Text
 Form.Email = Email
 Form.Password = Password
+Form.Textarea = Textarea
 Form.Submit = Submit
 Form.Navigation = Navigation

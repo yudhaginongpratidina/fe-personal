@@ -31,7 +31,7 @@ export default function Sidebar({ is_active, handle_close, children }: SidebarPr
             {is_active && (
                 <aside className="fixed top-0 z-10 w-full md:max-w-[280px] border-r border-gray-200 min-h-screen bg-white">
                     <div className="w-full h-12 px-4 flex justify-between items-center border-b border-gray-200">
-                        <div className="w-8 h-8 rounded-sm bg-gray-400" />
+                        <div className="w-8 h-8 rounded-full bg-gray-400" />
                         <button onClick={handle_close} className="3xl:hidden hover:cursor-pointer">
                             <IoMdClose className="w-6 h-6" />
                         </button>
@@ -51,7 +51,7 @@ const ItemLink = ({ name, href, icon }: ItemLinkProps) => {
         <Link href={href} className="w-full">
             <div className="w-full h-12 px-2.5 flex items-center rounded-sm hover:bg-gray-100 gap-2">
                 {icon && (
-                    <div className="w-7 h-7 rounded-sm flex justify-center items-center bg-black text-white">
+                    <div className="w-8 h-8 rounded-full flex justify-center items-center bg-black text-white">
                         {icon}
                     </div>
                 )}
@@ -73,7 +73,7 @@ const ItemDropdown = ({ name, icon, items }: ItemDropdownProps) => {
     };
 
     const ButtonClass = "w-full h-12 px-2.5 flex justify-between items-center rounded-sm hover:bg-gray-100 gap-2";
-    const IconClass = "w-7 h-7 rounded-sm flex justify-center items-center bg-black text-white";
+    const IconClass = "w-8 h-8 rounded-full flex justify-center items-center bg-black text-white";
     const ItemLinkClass = "w-full h-12 px-2.5 flex items-center rounded-sm hover:bg-gray-100 gap-2"
 
     return (
