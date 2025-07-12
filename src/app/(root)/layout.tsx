@@ -84,9 +84,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </Navbar.Items>
                 <Navbar.Items direction="row" className="hidden md:flex gap-4">
                     <Navbar.ItemLink name="Home" href="/" />
-                    <Navbar.ItemLink name="About" href="/" />
-                    <Navbar.ItemLink name="Project" href="/" />
-                    <Navbar.ItemLink name="Contact" href="/" />
+                    <Navbar.ItemLink name="Forum" href="/forum" />
                 </Navbar.Items>
                 <Navbar.Items direction="row">
                     <Navbar.ActionButton>
@@ -112,9 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {menu_mobile_open && (
                 <div className="fixed top-0 z-10 w-full h-full md:hidden flex flex-col justify-center items-center gap-4 bg-black/70">
                     <Navbar.ItemLink name="Home" href="/" />
-                    <Navbar.ItemLink name="About" href="/" />
-                    <Navbar.ItemLink name="Project" href="/" />
-                    <Navbar.ItemLink name="Contact" href="/" />
+                    <Navbar.ItemLink name="Forum" href="/forum" />
                     <Navbar.ActionButton onClick={handleMenuMobile}>
                         <IoCloseSharp className="w-4 h-4 text-white" />
                     </Navbar.ActionButton>

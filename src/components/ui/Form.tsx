@@ -174,7 +174,7 @@ const Submit = ({ id, name, disabled, isLoading }: Button) => {
 const Navigation = ({ to, name }: { to: string, name: string }) => {
     return (
         <div className="w-full flex justify-center">
-            <Link href={to} className="text-md font-medium hover:underline hover:underline-offset-4 text-blue-500">
+            <Link href={to} className="text-sm font-medium hover:underline hover:underline-offset-4 text-blue-500">
                 {name}
             </Link>
         </div>
